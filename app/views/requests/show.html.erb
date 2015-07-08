@@ -1,0 +1,21 @@
+<% content_for :refresh_tag do %>
+	<p id="notice"><%= notice %></p>
+
+  <div class="container">
+		<p style="font-size:20px">
+		  <strong>Student:</strong>
+		  <% name = Student.where(id_num: @request.student_id).take.name %>
+		  <%= name %>
+		</p>
+		<br>
+		<p style="font-size:20px">
+			<strong>Created:</strong>
+		  <%= "#{time_ago_in_words(@request.created_at, include_seconds: true)}" + " ago" %>
+		</p>
+		<br>
+
+		<%= link_to requests_path, class: 'btn btn-primary' do %>
+		  <i title="Back" class="glyphicon glyphicon-arrow-left"></i>
+		<% end %>
+	</div>
+<% end %>

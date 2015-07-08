@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student_id: 1
+  removed_by: 
+  time_waited: 
+  received_help: false
+
+two:
+  student_id: 1
+  removed_by: 
+  time_waited: 
+  received_help: false

@@ -1,0 +1,25 @@
+<% content_for :refresh_tag do %>
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+    <% provide(:title, "Log in") %>
+    <h1>Help Queue Log in</h1>
+
+    <div class="row">
+      <div class="col-md-6">
+        <%= form_for(:session, url: login_path) do |f| %>
+
+          <%= f.label :id %>
+          <%= f.number_field "ID_number", class: 'form-control' %>
+
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+          <br>
+          <%= f.submit "Log in", class: "btn btn-primary" %>
+        <% end %>
+
+        <p style="font-size:15px">Create an account<%= link_to "HERE", "/students/new", class: 'btn btn-link' %></p>
+      </div>
+    </div>
+  </div>
+<% end %>

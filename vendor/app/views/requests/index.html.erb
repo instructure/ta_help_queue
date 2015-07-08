@@ -1,0 +1,72 @@
+<% content_for :refresh_tag do %>
+  <meta http-equiv="refresh" content="30">
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-9" style="text-align:center">
+        <h1>Help Queue</h1>
+        <% if session[:admin] %>
+          <h3><%= link_to "Admin Account", admins_path, class: 'btn btn-link', style: 'font-size:25px' %> </h3>
+        <% else %>
+          <% last_five_requests = PastRequest.where("received_help = ? AND created_at >= ?", true, Time.zone.now.beginning_of_day).order(created_at: :desc).limit(5) %>
+          <% avg_wait = 0 %>
+          <% if last_five_requests.size > 0 %>
+            <% last_five_requests.each do |past_request| %>
+              <% avg_wait += past_request.time_waited %>
+            <% end %>
+            <% avg_wait /= last_five_requests.size %>
+          <% end %>
+          <h3><%= "Average Wait Time: #{time_ago_in_words(Time.now - avg_wait, include_seconds: true)} (last 5)" %></h3>
+        <% end %>
+      </div>
+      <div class="col-xs-3">
+        <h3><%= "Welcome #{session[:name]} " %></h3>
+        <div class="row" style="position:static">
+          <%= link_to '/logout', method: :delete, class: 'btn btn-link btn-lg' do %>
+              <i title="Logout" class="glyphicon glyphicon-log-out"></i>
+          <% end %>
+          <% if !session[:admin] %>
+            <%= link_to new_request_path, class: 'btn btn-success btn-xs' do %>
+              <i title="Submit Request" class="glyphicon glyphicon-plus"></i>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <table class="table-hover table" frame="border">
+      <thead>
+        <tr class="active">
+          <th style="font-size:20px">Student</th>
+          <th style="font-size:20px">Wait Time</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @requests.each_with_index do |request, index| %>
+          <% student = Student.where(id_num: request.student_id).take %>
+          <% if session[:id] == student.id_num %>
+            <tr class="info">
+          <% elsif index < 5 %>
+            <tr class="success">
+          <% else %>
+            <tr>
+          <% end %>
+            <td><%= link_to student.name, request, class: 'btn btn-link btn-xs', style: 'font-size:20px' %></td>
+            <td style="font-size:20px"><%= "#{time_ago_in_words(request.created_at, include_seconds: true)}" %></td>
+            <td><% if session[:id] == request.student_id || session[:admin] %>
+              <%= link_to request, method: :delete, class: 'btn btn-danger btn-xs' do %>
+                <i title="Remove Request" class="glyphicon glyphicon-remove"></i><% end %>
+            <% end %></td>
+            <% if session[:admin] %>
+              <td><%= link_to request_path(request, helped: true), method: :delete, class: 'btn btn-success btn-xs' do %>
+                <i title="Help Student" class="glyphicon glyphicon-ok"></i><% end %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+<% content_for :refresh_tag do %>	
+	<p id="notice"><%= notice %></p>
+
+  <div class="container">
+  	<br>
+		<p style="font-size:30px">
+		  <strong>Student:</strong>
+		  <% student = Student.find_by(id_num: @past_request.student_id) %>
+		  <%= student.name %>
+		</p>
+    <br>
+		<p style="font-size:20px">
+		  <strong>Removed by:</strong>
+		  <% if @past_request.student_id == @past_request.removed_by %>
+		    <%= "Self" %>
+		  <% else %>
+		    <% admin = Admin.find_by(admin_id: @past_request.removed_by) %>
+		    <%= admin.name %>
+		  <% end %>
+		</p>
+    <br>
+		<p style="font-size:20px">
+		  <strong>Time waited:</strong>
+		  <%= "#{time_ago_in_words(@past_request.created_at - @past_request.time_waited)}" %>
+		</p>
+		<br>
+
+		<%= link_to "/past_requests/#{@past_request.id}/archive", class: 'btn btn-primary' do %>
+		  <i title="Finished" class="glyphicon glyphicon-thumbs-up"></i>
+		<% end %>
+	</div>
+<% end %>

@@ -1,0 +1,2 @@
+module PastRequestsHelper
+end

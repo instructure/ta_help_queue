@@ -1,0 +1,42 @@
+<% content_for :refresh_tag do %>  
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+    <h1>List of Past Requests</h1>
+
+    <table class="table-hover table-striped table" frame="border">
+      <thead>
+        <tr>
+          <th style="font-size:20px">Student</th>
+          <th style="font-size:20px">Removed by</th>
+          <th style="font-size:20px">Time waited</th>
+          <th style="font-size:20px">Received help</th>
+          <th style="font-size:20px">Help Duration</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @past_requests.each do |past_request| %>
+          <% if past_request.time_waited > 3600 %>
+            <tr class="warning">
+          <% else %>
+            <tr>
+          <% end %>
+            <% student = Student.find_by(id_num: past_request.student_id) %>
+            <% admin = Admin.where(admin_id: past_request.removed_by).take %>
+            <td style="font-size:20px"><%= student.name %></td>
+            <% if admin %>
+              <td style="font-size:20px"><%= admin.name %></td>
+            <% else %>
+              <td style="font-size:20px"><%= "Self" %></td>
+            <% end %>
+            <td style="font-size:20px"><%= "#{distance_of_time_in_words(past_request.created_at, past_request.created_at - past_request.time_waited)}" %></td>
+            <td style="font-size:20px"><%= past_request.received_help %></td>
+            <td style="font-size:20px"><%= "#{distance_of_time_in_words(past_request.updated_at, past_request.created_at)}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,16 @@
+<% content_for :refresh_tag do %>	
+	<p id="notice"><%= notice %></p>
+
+	<p>
+	  <strong>Name:</strong>
+	  <%= @student.name %>
+	</p>
+
+	<p>
+	  <strong>Id num:</strong>
+	  <%= @student.id_num %>
+	</p>
+
+	<%= link_to 'Edit', edit_student_path(@student) %> |
+	<%= link_to 'Back', students_path %>
+<% end %>

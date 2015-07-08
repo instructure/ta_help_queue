@@ -1,0 +1,43 @@
+<% content_for :refresh_tag do %>
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+    <h1>List of Admins <%= link_to new_admin_path, class: 'btn btn-md btn-success' do %>
+      <i title="Add Admin" class="glyphicon glyphicon-plus"></i>
+    <% end %></h1>
+
+    <table class="table-hover table-striped table" frame="border">
+      <thead>
+        <tr class="active">
+          <th style="font-size:20px">Name</th>
+          <th style="font-size:20px">Students Helped</th>
+          <th style="font-size:20px">Average Help Time</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @admins.each do |admin| %>
+          <tr>
+            <td style="font-size:20px"><%= admin.name %></td>
+            <% past_requests = PastRequest.where("received_help = ? AND removed_by >= ?", true, admin.admin_id) %>
+            <% avg_duration = 0 %>
+            <% past_requests.each do |past_request| %>
+              <% avg_duration += (past_request.updated_at - past_request.created_at) %>
+            <% end %>
+            <% if past_requests.size > 0 %>
+              <% avg_duration /= past_requests.size %>
+            <% end %>
+            <td style="font-size:20px"><%= past_requests.size %></td>
+            <td style="font-size:20px"><%= "#{distance_of_time_in_words(Time.now, Time.now - avg_duration)}" %></td>
+            <td><%= link_to admin, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' do %>
+              <i title="Delete Admin" class="glyphicon glyphicon-remove"></i>
+            <% end %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+  </div>
+<% end %>

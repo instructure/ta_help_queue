@@ -1,0 +1,35 @@
+<% content_for :refresh_tag do %>  
+  <%= form_for(@past_request) do |f| %>
+    <% if @past_request.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@past_request.errors.count, "error") %> prohibited this past_request from being saved:</h2>
+
+        <ul>
+        <% @past_request.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :student_id %><br>
+      <%= f.number_field :student_id %>
+    </div>
+    <div class="field">
+      <%= f.label :removed_by %><br>
+      <%= f.text_field :removed_by %>
+    </div>
+    <div class="field">
+      <%= f.label :time_waited %><br>
+      <%= f.text_field :time_waited %>
+    </div>
+    <div class="field">
+      <%= f.label :received_help %><br>
+      <%= f.check_box :received_help %>
+    </div>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+<% end %>

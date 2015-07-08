@@ -1,0 +1,40 @@
+<% content_for :refresh_tag do %>  
+  <p id="notice"><%= notice %></p>
+
+  <div class="container">
+    <h1>List of Students</h1>
+
+    <table class="table-hover table-striped table" frame="border">
+      <thead>
+        <tr class="active">
+          <th style="font-size:20px">Name</th>
+          <th style="font-size:20px">Id num</th>
+          <th style="font-size:20px">Requests</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @students.each do |student| %>
+          <% requests = PastRequest.where(student_id: student.id_num) %>
+          <% if requests.size > 20 %>
+            <tr class="danger">
+          <% elsif requests.size > 10 %>
+            <tr class="warning">
+          <% else %>
+            <tr>
+          <% end %>
+            <td style="font-size:20px"><%= student.name %></td>
+            <td style="font-size:20px"><%= student.id_num %></td>
+            <td style="font-size:20px"><%= requests.size %></td>
+            <td><%= link_to student, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' do %>
+              <i title="Delete Student" class="glyphicon glyphicon-remove"></i>
+            <% end %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+  </div>
+<% end %>

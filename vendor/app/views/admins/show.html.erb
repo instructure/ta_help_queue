@@ -1,0 +1,16 @@
+<% content_for :refresh_tag do %>
+	<p id="notice"><%= notice %></p>
+
+	<p>
+	  <strong>Admin ID:</strong>
+	  <%= @admin.admin_id %>
+	</p>
+
+	<p>
+	  <strong>Name:</strong>
+	  <%= @admin.name %>
+	</p>
+
+	<%= link_to 'Edit', edit_admin_path(@admin) %> |
+	<%= link_to 'Back', admins_path %>
+<% end %>
