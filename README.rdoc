@@ -1,28 +1,17 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Online Help Queue
 
-Things you may want to cover:
+To start application, simply run `rails s` to start the server.
+Connect to the application on http://localhost:3000
 
-* Ruby version
+This is a basic implementation of an online help queue used to monitor interactions between Teaching Assistants and students. 
+Initial admin user will need to be created by running 
+    `rails c`
+        > Admin.create(params)
+After this, the admin will have the ability to add new accounts through the UI.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
+Basic permissions allow admin accounts to remove any student from the list, as well as view reports of past requests/interactions.
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
